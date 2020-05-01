@@ -4,12 +4,25 @@
   "description": "ReactJS component for fitoptivis visualisation",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "webpack --mode development ./example/run.js",
+    "build": "webpack --mode production"
   },
   "author": "Václav Čamra",
   "license": "ISC",
   "dependencies": {
+    "babel-standalone": "^6.26.0",
+    "es-module-shims": "^0.4.6",
     "mxgraph": "^4.1.0",
-    "react": "^16.13.0"
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.1.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }
