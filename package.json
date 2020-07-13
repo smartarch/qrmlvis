@@ -4,8 +4,7 @@
   "description": "ReactJS component for fitoptivis visualisation",
   "main": "index.js",
   "scripts": {
-    "test": "webpack --mode development ./example/run.js",
-    "build": "webpack --mode production"
+    "build": "webpack --mode development ./example/run.js"
   },
   "author": "Václav Čamra",
   "license": "ISC",
