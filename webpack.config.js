@@ -9,5 +9,10 @@ module.exports = {
           }
         }
       ]
+    },
+    watch: true,
+    watchOptions: {
+      aggregateTimeout: 200,
+      ignored : ["/node_modules/"]
     }
   };

@@ -27,6 +27,7 @@ export class Graph extends Component {
     }
 
     SetStyles(graph) {
+        // default vertex style
         let  defaultStyle = new Object();
         defaultStyle[MxGraph.mxConstants.STYLE_ROUNDED] = true;
         defaultStyle[MxGraph.mxConstants.STYLE_EDGE] = MxGraph.mxEdgeStyle.EntityRelation;
@@ -40,6 +41,7 @@ export class Graph extends Component {
         defaultStyle[mxConstants.STYLE_FONTSTYLE] = 0;
         graph.getStylesheet().putDefaultVertexStyle(defaultStyle);
 
+        // port style
         let portStyle = new Object();
         portStyle[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_LABEL;
         portStyle[mxConstants.STYLE_FONTCOLOR] = '#774400';
@@ -54,6 +56,7 @@ export class Graph extends Component {
         portStyle[mxConstants.STYLE_FONTCOLOR] = '#0000FF';
         graph.getStylesheet().putCellStyle('port', portStyle);
 
+        // quality style
         let qualityStyle = new Object();
         qualityStyle[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_LABEL;
         qualityStyle[mxConstants.STYLE_PERIMETER] = MxGraph.mxPerimeter.RectanglePerimeter;
@@ -67,6 +70,7 @@ export class Graph extends Component {
         qualityStyle[mxConstants.STYLE_FONTCOLOR] = '#b941f5';
         graph.getStylesheet().putCellStyle('quality', qualityStyle);
 
+        // name pseudo-vertex of each component
         let nameStyle = new Object();
         nameStyle[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_LABEL;
         nameStyle[mxConstants.STYLE_PERIMETER] = null;
@@ -143,7 +147,7 @@ export class Graph extends Component {
         graph.insertVertex(graph.getDefaultParent(), null, model.Name, 0.5, 0.5, 100, 30, null, false);
     }
 
-    AddPorts(graph, parent, ports) {
+    AddPorts(graph, parent, ports, qualitiesCount) {
         var i;
         
         var port_count = ports.Inputs.length;
@@ -162,7 +166,7 @@ export class Graph extends Component {
 
         var port_count = ports.Supports.length;
         for(i = 0; i < port_count; i++) {
-            const offset = (i + 1) / (port_count + 1);
+            const offset = (qualitiesCount + i + 1) / (port_count + qualitiesCount + 1);
             var port = graph.insertVertex(parent, null, this.SerializeName(ports.Supports[i].Name), offset, 0, 2, 2, 'port;align=center;rotation=90', true);
             port.geometry.offset = new MxGraph.mxPoint(-1, -1);
         }
@@ -175,7 +179,7 @@ export class Graph extends Component {
         }
     }
 
-    AddQualities(graph, component, qualities) {
+    AddQualities(graph, componentVertex, qualities, supportsPortsCount) {
         if (qualities == null)
             return;
 
@@ -183,8 +187,8 @@ export class Graph extends Component {
         const qualityCount = qualityNames.length;
        
         for(let i = 0; i < qualityCount; i++) {
-            const offset = (i + 1) / (qualityCount + 1);
-            var quality = graph.insertVertex(component, null, qualityNames[i], offset, 0, 2, 2, 'quality;spacingRight=5;align=center;rotation=90', true);
+            const offset = (i + 1) / (qualityCount + supportsPortsCount + 1);
+            var quality = graph.insertVertex(componentVertex, null, qualityNames[i], offset, 0, 2, 2, 'quality;spacingRight=5;align=center;rotation=90', true);
             quality.geometry.offset = new MxGraph.mxPoint(-1, -1);
         }
     }
@@ -196,8 +200,14 @@ export class Graph extends Component {
         return `${structuredName.name}[${structuredName.index}]`
     }
 
+    GetArrayLengthSafe(array) {
+        if (array.length == undefined)
+            return 0;
+
+        return array.length;
+    }
+
     AddComponent(graph, parent, componentModel) {
-        console.log(componentModel);
         const NameStructure = componentModel.Name;
         const name = this.SerializeName(NameStructure);
         
@@ -208,12 +218,13 @@ export class Graph extends Component {
         component.name = name;
         component.raw = componentModel;
 
-        this.AddQualities(graph, component, componentModel.Qualities);
-        this.AddPorts(graph, component, componentModel.Ports);
+        const qualityCount = this.GetArrayLengthSafe(Object.keys(componentModel.Qualities));
+        const supportsPortsCount = this.GetArrayLengthSafe(componentModel.Ports.Supports);
+
+        this.AddQualities(graph, component, componentModel.Qualities, supportsPortsCount);
+        this.AddPorts(graph, component, componentModel.Ports, qualityCount);
         this.AddSubcomponents(graph, component, componentModel.Subcomponents);
         this.AddLinks(graph, component, componentModel);
-
-        console.log(`Added component ${name} to the serialization`);
     }
 
     AddSubcomponents(graph, parent, subcomponents) {
