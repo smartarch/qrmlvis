@@ -8,9 +8,15 @@ To run the example, first build the code using:
 ```
 npm run build
 ```
+
+Afterwards, you can run the local server with:
+```
+npm run example
+```
+
 The library has been tested with npm version 6.14.6.
 
-Afterwards you can open the *example/index.html* file (using file:// protocol, no need for custom http server).
+Afterwards you can open the example in your browser at localhost:8000/example
 
 The example contains a simple system definition (as can be seen in the file *example/run.js*), which is then visualized by the visualization component.
 

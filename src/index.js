@@ -27,36 +27,117 @@ export class Graph extends Component {
     }
 
     SetStyles(graph) {
-        var style = new Object();
-        style[MxGraph.mxConstants.STYLE_ROUNDED] = true;
-        style[MxGraph.mxConstants.STYLE_EDGE] = MxGraph.mxEdgeStyle.EntityRelation;
-        style[mxConstants.STYLE_PERIMETER] = MxGraph.mxPerimeter.RectanglePerimeter;
-        style[mxConstants.STYLE_GRADIENTCOLOR] = '#41B9F5';
-        style[mxConstants.STYLE_FILLCOLOR] = '#8CCDF5';
-        style[mxConstants.STYLE_STROKECOLOR] = '#1B78C8';
-        style[mxConstants.STYLE_FONTCOLOR] = '#000000';
-        style[mxConstants.STYLE_OPACITY] = '80';
-        style[mxConstants.STYLE_FONTSIZE] = '12';
-        style[mxConstants.STYLE_FONTSTYLE] = 0;
-        graph.getStylesheet().putDefaultVertexStyle(style);
+        let  defaultStyle = new Object();
+        defaultStyle[MxGraph.mxConstants.STYLE_ROUNDED] = true;
+        defaultStyle[MxGraph.mxConstants.STYLE_EDGE] = MxGraph.mxEdgeStyle.EntityRelation;
+        defaultStyle[mxConstants.STYLE_PERIMETER] = MxGraph.mxPerimeter.RectanglePerimeter;
+        defaultStyle[mxConstants.STYLE_GRADIENTCOLOR] = '#41B9F5';
+        defaultStyle[mxConstants.STYLE_FILLCOLOR] = '#8CCDF5';
+        defaultStyle[mxConstants.STYLE_STROKECOLOR] = '#1B78C8';
+        defaultStyle[mxConstants.STYLE_FONTCOLOR] = '#000000';
+        defaultStyle[mxConstants.STYLE_OPACITY] = '80';
+        defaultStyle[mxConstants.STYLE_FONTSIZE] = '12';
+        defaultStyle[mxConstants.STYLE_FONTSTYLE] = 0;
+        graph.getStylesheet().putDefaultVertexStyle(defaultStyle);
 
-        style = new Object();
-        style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_LABEL;
-        style[mxConstants.STYLE_FONTCOLOR] = '#774400';
-        style[mxConstants.STYLE_PERIMETER] = MxGraph.mxPerimeter.RectanglePerimeter;
-        style[mxConstants.STYLE_PERIMETER_SPACING] = '6';
-        style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_LEFT;
-        style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
-        style[mxConstants.STYLE_FONTSIZE] = '10';
-        style[mxConstants.STYLE_FONTSTYLE] = 2;
-        graph.getStylesheet().putCellStyle('port', style);
+        let portStyle = new Object();
+        portStyle[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_LABEL;
+        portStyle[mxConstants.STYLE_FONTCOLOR] = '#774400';
+        portStyle[mxConstants.STYLE_PERIMETER] = MxGraph.mxPerimeter.RectanglePerimeter;
+        portStyle[mxConstants.STYLE_PERIMETER_SPACING] = '6';
+        portStyle[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_LEFT;
+        portStyle[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
+        portStyle[mxConstants.STYLE_FONTSIZE] = '10';
+        portStyle[mxConstants.STYLE_FONTSTYLE] = 2;
+        portStyle[mxConstants.STYLE_FILLCOLOR] = '#f57d41';
+        portStyle[mxConstants.STYLE_GRADIENTCOLOR] = '#f57d41';
+        portStyle[mxConstants.STYLE_FONTCOLOR] = '#0000FF';
+        graph.getStylesheet().putCellStyle('port', portStyle);
 
-        var style = graph.getStylesheet().getDefaultEdgeStyle();
-        style[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = '#FFFFFF';
-        style[mxConstants.STYLE_STROKEWIDTH] = '2';
-        style[mxConstants.STYLE_ROUNDED] = true;
-        style[mxConstants.STYLE_EDGE] = MxGraph.mxEdgeStyle.EntityRelation;
+        let qualityStyle = new Object();
+        qualityStyle[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_LABEL;
+        qualityStyle[mxConstants.STYLE_PERIMETER] = MxGraph.mxPerimeter.RectanglePerimeter;
+        qualityStyle[mxConstants.STYLE_PERIMETER_SPACING] = '2';
+        qualityStyle[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_LEFT;
+        qualityStyle[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
+        qualityStyle[mxConstants.STYLE_FONTSIZE] = '10';
+        qualityStyle[mxConstants.STYLE_FONTSTYLE] = 2;
+        qualityStyle[mxConstants.STYLE_FILLCOLOR] = '#f5d741';
+        qualityStyle[mxConstants.STYLE_GRADIENTCOLOR] = '#f5d741';        
+        qualityStyle[mxConstants.STYLE_FONTCOLOR] = '#b941f5';
+        graph.getStylesheet().putCellStyle('quality', qualityStyle);
+
+        let nameStyle = new Object();
+        nameStyle[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_LABEL;
+        nameStyle[mxConstants.STYLE_PERIMETER] = null;
+        nameStyle[mxConstants.STYLE_PERIMETER_SPACING] = '2';
+        nameStyle[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_MIDDLE;
+        nameStyle[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
+        nameStyle[mxConstants.STYLE_FONTSIZE] = '14';
+        nameStyle[mxConstants.STYLE_FONTSTYLE] = 0;
+        nameStyle[mxConstants.STYLE_FILLCOLOR] = '#00000000';
+        nameStyle[mxConstants.STYLE_GRADIENTCOLOR] = '#00000000'; 
+        nameStyle[mxConstants.STYLE_OPACITY] = '0';       
+        nameStyle[mxConstants.STYLE_FONTCOLOR] = '#000000';
+        nameStyle[mxConstants.STYLE_MOVABLE] = true;
+        graph.getStylesheet().putCellStyle('name', nameStyle);
+
+        // edges
+        MxGraph.mxEdgeStyle.VerticalEntityRelation = this.VerticalEntityRelation;
+        MxGraph.mxStyleRegistry.putValue("VerticalEntityRelation", MxGraph.mxEdgeStyle.VerticalEntityRelation);
+
+        let edgeStyle = graph.getStylesheet().getDefaultEdgeStyle();
+        edgeStyle[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = '#FFFFFF';
+        edgeStyle[mxConstants.STYLE_STROKEWIDTH] = '2';
+        edgeStyle[mxConstants.STYLE_ROUNDED] = true;
+        // checked the source code, EntityRelation works only left to right
+        edgeStyle[mxConstants.STYLE_EDGE] = MxGraph.mxEdgeStyle.EntityRelation;    
+        edgeStyle[mxConstants.STYLE_SEGMENT] = 20;
     }
+
+    // copied code over from EntityRelation (MxGraph source code) and reworked it to do bottom -> up edges
+    VerticalEntityRelation(state, source, target, points, result) {
+		var view = state.view;
+	 	var graph = view.graph;
+	 	var segment = mxUtils.getValue(state.style,
+	 			mxConstants.STYLE_SEGMENT,
+	 			mxConstants.ENTITY_SEGMENT) * view.scale;
+	 	
+		var pts = state.absolutePoints;
+		var p0 = pts[0];
+		var pe = pts[pts.length-1];
+	 
+        target = new mxCellState();
+        target.x = pe.x;
+        target.y = pe.y;
+        
+		if (source != null)
+		{            
+            var x0 = view.getRoutingCenterX(source);
+            var y0 = source.y;
+            
+            var xe = view.getRoutingCenterX(target);
+            var ye = target.y;
+	
+			var dep = new mxPoint(x0, y0 - segment);					
+            var arr = new mxPoint(xe, ye + segment);
+            
+			if (dep.x > arr.x)
+			{
+                var midX = x0 + (xe - x0) / 2;
+	
+				result.push(dep);
+				result.push(new mxPoint(midX, dep.y));
+				result.push(new mxPoint(midX, arr.y));
+				result.push(arr);
+			}
+			else
+			{
+				result.push(dep);
+				result.push(arr);
+			}
+		}
+	}
 
     AddSystemLabel(graph, model) {
         graph.insertVertex(graph.getDefaultParent(), null, model.Name, 0.5, 0.5, 100, 30, null, false);
@@ -68,58 +149,99 @@ export class Graph extends Component {
         var port_count = ports.Inputs.length;
         for(i = 0; i < port_count; i++) {
             const offset = (i + 1) / (port_count + 1);
-            var name = this.ProcessStructuredName(ports.Inputs[i].Name)
-            var port = graph.insertVertex(parent, null, name, 0, offset, 2, 2, 'port;spacingRight=5;align=center', true);
+            var port = graph.insertVertex(parent, null, this.SerializeName(ports.Inputs[i].Name), 0, offset, 2, 2, 'port;spacingRight=5;align=center', true);
             port.geometry.offset = new MxGraph.mxPoint(-1, -1);            
         }
 
         var port_count = ports.Outputs.length;
         for(i = 0; i < port_count; i++) {
             const offset = (i + 1) / (port_count + 1);
-            var name = this.ProcessStructuredName(ports.Outputs[i].Name)
-            var port = graph.insertVertex(parent, null, name, 1, offset, 2, 2, 'port;spacingLeft=5;align=center', true);
+            var port = graph.insertVertex(parent, null, this.SerializeName(ports.Outputs[i].Name), 1, offset, 2, 2, 'port;spacingLeft=5;align=center', true);
             port.geometry.offset = new MxGraph.mxPoint(-1, -1);
         }
 
         var port_count = ports.Supports.length;
         for(i = 0; i < port_count; i++) {
             const offset = (i + 1) / (port_count + 1);
-            var name = this.ProcessStructuredName(ports.Supports[i].Name)
-            var port = graph.insertVertex(parent, null, name, offset, 0, 2, 2, 'port;spacingRight=5;align=center;rotation=90', true);
+            var port = graph.insertVertex(parent, null, this.SerializeName(ports.Supports[i].Name), offset, 0, 2, 2, 'port;align=center;rotation=90', true);
             port.geometry.offset = new MxGraph.mxPoint(-1, -1);
         }
 
         var port_count = ports.Requires.length;
         for(i = 0; i < port_count; i++) {
             const offset = (i + 1) / (port_count + 1);
-            var name = this.ProcessStructuredName(ports.Requires[i].Name)
-            var port = graph.insertVertex(parent, null, name, offset, 1, 2, 2, 'port;spacingRight=5;align=center;rotation=90', true);
+            var port = graph.insertVertex(parent, null, this.SerializeName(ports.Requires[i].Name), offset, 1, 2, 2, 'port;align=center;rotation=90', true); 
             port.geometry.offset = new MxGraph.mxPoint(-1, -1);
         }
     }
 
-    ProcessStructuredName(name) {
-        return name.index ? `${name.Name}[${name.index}]` : name.Name
+    AddQualities(graph, component, qualities) {
+        if (qualities == null)
+            return;
+
+        const qualityNames = Object.keys(qualities);
+        const qualityCount = qualityNames.length;
+       
+        for(let i = 0; i < qualityCount; i++) {
+            const offset = (i + 1) / (qualityCount + 1);
+            var quality = graph.insertVertex(component, null, qualityNames[i], offset, 0, 2, 2, 'quality;spacingRight=5;align=center;rotation=90', true);
+            quality.geometry.offset = new MxGraph.mxPoint(-1, -1);
+        }
+    }
+
+    SerializeName(structuredName) {
+        if (structuredName.index == undefined)
+            return structuredName.name;
+
+        return `${structuredName.name}[${structuredName.index}]`
     }
 
     AddComponent(graph, parent, componentModel) {
-        const name = this.ProcessStructuredName(componentModel.Name);
-
-        if (name == undefined){
-            console.warn(`Component ${componentModel} does not have a name`);
-            return;
-        }
+        console.log(componentModel);
+        const NameStructure = componentModel.Name;
+        const name = this.SerializeName(NameStructure);
         
-        var component = graph.insertVertex(parent, null, name);   
+        var component = graph.insertVertex(parent, null, null);
+        component.connectable = false;
+        var componentName = graph.insertVertex(component, null, name, 0, 0, null, null, 'name', false);   
+        componentName.connectable = false;
+        component.name = name;
+        component.raw = componentModel;
 
+        this.AddQualities(graph, component, componentModel.Qualities);
         this.AddPorts(graph, component, componentModel.Ports);
+        this.AddSubcomponents(graph, component, componentModel.Subcomponents);
         this.AddLinks(graph, component, componentModel);
+
+        console.log(`Added component ${name} to the serialization`);
     }
 
-    FindCellByValue(cells, value) {
-        let result;
+    AddSubcomponents(graph, parent, subcomponents) {
+        if (subcomponents == null)
+            return;
+
+        subcomponents.forEach(subcomponent => {
+            this.AddComponent(graph, parent, subcomponent);
+        });
+    }
+
+    FindByStructuredName(cells, structuredName) {
+        if (cells == null)
+            return;
+
+        let result = null;
+        const soughtName = this.SerializeName(structuredName);
+        
         cells.forEach(cell => {
-            if (cell.value == value)
+            if (cell.isEdge())
+                return;
+
+            let name;
+            if (cell.name != null)
+                name = cell.name;
+            else 
+                name = cell.value;
+            if (name == soughtName)
                 result = cell;
         });
         return result;
@@ -128,49 +250,30 @@ export class Graph extends Component {
     AddLinks(graph, parent, model) {
         const children = parent.children;
 
-	if (model.OutputsToLinks)
-		model.OutputsToLinks.forEach(link => {
-            var fromComponentName = this.ProcessStructuredName(link.From.componentName);
-            var from = this.FindCellByValue(children, fromComponentName);
-            if (from == undefined) {
-                console.warn(`Component ${fromComponentName} not found`);
-                return;
-            }
+	    if (model.OutputsToLinks) {
+            model.OutputsToLinks.forEach(link => {
+                var from = this.FindByStructuredName(children, link.From.componentName) || parent;
+                var fromPort = this.FindByStructuredName(from.children, link.From.portName);
 
-            var fromComponentPort = this.ProcessStructuredName(link.From.portName);
-            var fromPort = this.FindCellByValue(from.children, fromComponentPort);
-            if (fromPort == undefined) {
-                console.warn(`Port ${fromComponentPort} on component ${fromComponentName} not found`);
-                return;
-            }
+                var to = this.FindByStructuredName(children, link.To.componentName) || parent;
+                var toPort = this.FindByStructuredName(to.children, link.To.portName);
 
-            var toComponentName = this.ProcessStructuredName(link.To.componentName);
-            var to = this.FindCellByValue(children, toComponentName);
-            if (to == undefined) {
-                console.warn(`Component ${toComponentName} not found`);
-                return;
-            }
+                graph.insertEdge(parent, null, null, fromPort, toPort, "exitX=1;exitY=0.5;entryX=0;entryY=0.5");
+            });
+        }
 
-            var toComponentPort = this.ProcessStructuredName(link.To.portName);
-            var toPort = this.FindCellByValue(to.children, toComponentPort);
-            if (toPort == undefined) {
-                console.warn(`Port ${toComponentPort} on component ${toComponentName} not found`);
-                return;
-            }
+        if (model.RunsOnLinks)
+        {
+            model.RunsOnLinks.forEach(link => {
+                var from = this.FindByStructuredName(children, link.Guest.componentName) || parent;    
+                var fromPort = this.FindByStructuredName(from.children, link.Guest.portName);
 
-		    graph.insertEdge(parent, null, null, fromPort, toPort);
-		});
+                var to = this.FindByStructuredName(children, link.Host.componentName) || parent;
+                var toPort = this.FindByStructuredName(to.children, link.Host.portName);
 
-	if (model.RunsOnLinks)
-		model.RunsOnLinks.forEach(link => {
-		    var from = this.FindCellByValue(children, link.From.componentName);
-		    var fromPort = this.FindCellByValue(from.children, link.From.portName);
-
-		    var to = this.FindCellByValue(children, link.To.componentName);
-		    var toPort = this.FindCellByValue(to.children, link.To.portName);
-
-		    graph.insertEdge(parent, null, null, fromPort, toPort);
-		});
+                graph.insertEdge(parent, null, null, fromPort, toPort, "edgeStyle=VerticalEntityRelation;exitX=0;exitY=0.5;entryX=1;entryY=0.5");
+            });
+        }
     }
 
     CenterGraph(container, graph) {
@@ -186,14 +289,14 @@ export class Graph extends Component {
         if (vertices == null)
             return;
 
-            
-            vertices.forEach(vertex => {
-                if (vertex.isEdge())
+                    
+        vertices.forEach(vertex => {
+            if (vertex.isEdge())
                 return;
-                
+            
             let isPort = function(vertex) {
                 if (vertex.style)
-                    return vertex.style.startsWith("port");
+                    return vertex.style.startsWith("port") || vertex.style.startsWith("quality") || vertex.style.startsWith("name");
                 else
                     return false;
             }
@@ -216,9 +319,38 @@ export class Graph extends Component {
             
             if (isPort(vertex))
                 resizePort(graph, vertex);
-            else
-                resizeNonPort(graph, vertex);       
+            else {
+                resizeNonPort(graph, vertex);  
+            }
         });
+    }
+
+    CenterNames(vertices, graph) {
+        if (vertices == null)
+            return;
+
+        vertices.forEach(vertex => {
+            if (vertex.isEdge())
+                return;
+
+            let isName = function(vertex) {
+                return vertex.style && vertex.style.startsWith("name");
+            }
+            
+            if (isName(vertex)) {
+                let parent = vertex.parent;
+
+                const parentGeometry = parent.getGeometry();
+                const geometry = vertex.getGeometry();
+                const targetX = (parentGeometry.x + parentGeometry.width) / 2 - geometry.width / 2;
+                const targetY = (parentGeometry.y + parentGeometry.height) / 2 - geometry.height / 2;
+
+                console.log("Centering")
+                graph.moveCells([vertex], targetX, targetY);
+            }
+
+            this.CenterNames(vertex.children, graph);
+        })
     }
 
     CreateEmptyGraph(container) {       
@@ -250,7 +382,7 @@ export class Graph extends Component {
         let layout = new MxGraph.mxHierarchicalLayout(graph);
         layout.resizeParent = true;
         layout.moveParent = true;
-        layout.parentBorder = 50;
+        layout.parentBorder = 10;
         layout.disableEdgeStyle = false;
         layout.interRankCellSpacing = 200;
         layout.intraCellSpacing = 1;    
@@ -264,6 +396,28 @@ export class Graph extends Component {
 
         this.AddLinks(graph, graph.getDefaultParent(), model);  
     }    
+
+    LoadRandomGraph(graph, vertexCount, edgeCount) {
+        const parent = graph.getDefaultParent();
+
+        let vertices = [];
+
+        for(var i = 0; i < vertexCount; i++) {
+            let vertex = graph.insertVertex(parent, null, 'Vertex' + i);
+            vertices.push(vertex);
+        }
+
+        for(var i = 0; i < edgeCount; i++) {
+            const randomIndex = function() {
+                return Math.floor(Math.random() * vertexCount);
+            }
+
+            const from = randomIndex();
+            const to = randomIndex();
+
+            graph.insertEdge(parent, null, null, vertices[from], vertices[to]);
+        }
+    }
 
     LoadGraphFromSave(container, graph) {
         const layout = this.state.layout;
@@ -280,6 +434,8 @@ export class Graph extends Component {
 
         try {            
             this.LoadGraphFromModel(graph, this.props.model);
+
+            // this.LoadRandomGraph(graph, 100, 200);
 
         } finally {
             graph.getModel().endUpdate();
@@ -298,6 +454,7 @@ export class Graph extends Component {
         layout.execute(graph.getDefaultParent());        
         
         this.CenterGraph(container, graph);
+        this.CenterNames(vertices, graph);
     }
 
     LoadGraph() {
@@ -306,6 +463,7 @@ export class Graph extends Component {
         const graph = this.CreateEmptyGraph(container);        
         this.graph = graph;
 
+        // the layout includes all the elements of the graph, so there is no need to build it afterwards
         if (this.state.layout) 
             this.LoadGraphFromSave(container, graph);
         else
@@ -314,14 +472,37 @@ export class Graph extends Component {
         let selectionModel = graph.getSelectionModel()
         let self = this
         selectionModel.addListener(MxGraph.mxEvent.CHANGE, function(sender, event) {
+            if (!this.selected) // persistently stored in this function
+                this.selected = [];
+
+            let selected = this.selected;
+
             // THIS IS NOT A BUG! (in our code at least). 
             // For historic reasons MxGraph's selectionModel has these two inverted
             // https://jgraph.github.io/mxgraph/docs/js-api/files/view/mxGraphSelectionModel-js.html#mxGraphSelectionModel.mxEvent.CHANGE
+            
             let removed = event.getProperty('added')
             let added = event.getProperty('removed')
 
+            if (removed) {
+                removed.forEach(toRemove => {
+                    let index = selected.indexOf(toRemove);
+                    if (index >= 0)
+                        selected.splice(index, 1);
+                })
+            }            
+
+            if (added) {
+                added.forEach(toAdd => {
+                    selected.push(toAdd);
+                })
+            }
+			
+	//	let highlight = new MxGraph.mxCellHighlight(graph, "#000000", 5, false);
+	//	highlight.highlight(graph.view.getState(selected[0]));
+
             if (self.props.onVerticesSelected) {
-                self.props.onVerticesSelected(added)
+                self.props.onVerticesSelected(selected)
             }
         })
     }
@@ -330,7 +511,7 @@ export class Graph extends Component {
         this.LoadGraph();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate() {	
         this.LoadGraph();
     }
 

@@ -4,7 +4,8 @@
   "description": "ReactJS component for fitoptivis visualisation",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode development ./example/run.js"
+    "build": "webpack --mode development ./example/run.js",
+    "example": "ws"
   },
   "author": "Václav Čamra",
   "license": "ISC",
@@ -20,7 +21,8 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.1.0", 
+    "local-web-server": "^4.2.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   }

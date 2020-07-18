@@ -9,7 +9,7 @@ let model = {
             Type: "Source",
             Configuration: "default",
             Name: {
-                "Name" : "mySource"
+                "name" : "mySource"
                 // no index
             },	
             Qualities: {
@@ -21,14 +21,14 @@ let model = {
                 {
                     Type: "defaultChannel",
                     Name: {
-                        "Name": "myOutput"
+                        "name": "myOutput"
                     }
                 }],
                 Supports: [
                 {
                     Type: "defaultBudget",
                     Name: {
-                        "Name": "mySupports"
+                        "name": "mySupports"
                     }
                 }],
                 Requires: []
@@ -44,7 +44,7 @@ let model = {
             Type: "Sink",
             Configuration: "default",
             Name: {
-                "Name": "mySink"
+                "name": "mySink"
             },
             Qualities: {
                 "memory_consumption": "2048"
@@ -53,7 +53,7 @@ let model = {
                 Inputs: [{
                     Type: "defaultChannel",
                     Name: {
-                        "Name": "myInput"
+                        "name": "myInput"
                     }
                 }],
                 Outputs: [],
@@ -61,7 +61,7 @@ let model = {
                 {
                     Type: "defaultBudget",
                     Name: {
-                        "Name": "mySupports"
+                        "name": "mySupports"
                     }
                 }],
                 Requires: []
@@ -77,18 +77,18 @@ let model = {
         {
             From: {
                 componentName:  {
-                    "Name": "mySource"
+                    "name": "mySource"
                 },
                 portName: {
-                    "Name": "myOutput"
+                    "name": "myOutput"
                 }
             },
             To: {
                 componentName: {
-                    "Name": "mySink"
+                    "name": "mySink"
                 },
                 portName: {
-                    "Name": "myInput"
+                    "name": "myInput"
                 }
             },
             Qualities: {
